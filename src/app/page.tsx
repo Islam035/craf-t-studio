@@ -13,8 +13,8 @@ import ParkingGrid from '@/components/gpark/ParkingGrid'
 import { useScrollStore, type CarSection } from '@/components/gpark/carStore'
 
 const floors = [
-  { label: 'B2', sectionId: 'hero' },
-  { label: 'B1', sectionId: 'hero' },
+  { label: 'B2', sectionId: 'hero-0' },
+  { label: 'B1', sectionId: 'hero-1' },
   { label: '1F', sectionId: 'hello' },
   { label: '2F', sectionId: 'gap' },
   { label: '3F', sectionId: 'process' },
@@ -112,29 +112,17 @@ export default function Home() {
       {/* Page sections */}
       <HeroSection />
 
-      <div id="hello">
-        <HelloSection />
-      </div>
+      <HelloSection />
 
-      <div id="gap">
-        <GapSection />
-      </div>
+      <GapSection />
 
-      <div id="process">
-        <ProcessSection />
-      </div>
+      <ProcessSection />
 
-      <div id="climax">
-        <ClimaxSection />
-      </div>
+      <ClimaxSection />
 
-      <div id="impact">
-        <ImpactSection />
-      </div>
+      <ImpactSection />
 
-      <div id="cta">
-        <CTASection />
-      </div>
+      <CTASection />
 
       <Footer />
     </main>

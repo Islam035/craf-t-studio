@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://craf-t-studio.vercel.app'),
   title: "G-Park Case Study | CRAF-T Studio",
   description:
     "How G-Park turned seven videos into one powerful story. A 56-second 3D animation that consolidated an entire product line into a single marketing asset.",
@@ -27,13 +27,14 @@ export const metadata: Metadata = {
     "Case Study",
   ],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.svg",
   },
   openGraph: {
     title: "G-Park Case Study | CRAF-T Studio",
     description:
       "How G-Park turned seven videos into one powerful story.",
     type: "article",
+    images: ["/og-image.png"],
   },
 };
 
@@ -48,7 +49,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         {children}
-        <Toaster />
       </body>
     </html>
   );

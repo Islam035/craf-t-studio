@@ -1,10 +1,12 @@
 'use client'
 
-import { useRef, useEffect, useState, useMemo, Suspense } from 'react'
+import { useRef, useEffect, useState, useMemo, useCallback, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, OrbitControls, ContactShadows } from '@react-three/drei'
 import { useScrollStore, getCarState, lerpCarState } from './carStore'
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 function CarModel() {
   const groupRef = useRef<THREE.Group>(null)
@@ -152,8 +154,10 @@ function CarMeshLoader({ onLoaded }: { onLoaded: (scene: THREE.Group) => void })
 
     const loadModel = async () => {
       try {
-        const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader.js')
+        const dracoLoader = new DRACOLoader()
+        dracoLoader.setDecoderPath('/draco/')
         const loader = new GLTFLoader()
+        loader.setDRACOLoader(dracoLoader)
         loader.load(
           '/models/CarConcept.glb',
           (loaded) => {
@@ -189,8 +193,6 @@ function CarMeshLoader({ onLoaded }: { onLoaded: (scene: THREE.Group) => void })
 
   return <primitive object={gltf} />
 }
-
-import { useCallback } from 'react'
 
 function SceneSetup() {
   return (

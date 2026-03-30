@@ -50,38 +50,7 @@ const stages = [
   },
 ]
 
-function PlaceholderImage({
-  src,
-  label,
-  className = '',
-}: {
-  src: string
-  label: string
-  className?: string
-}) {
-  return (
-    <div className={`placeholder-img ${className}`}>
-      <div className="text-center p-4">
-        <div className="w-8 h-8 mx-auto mb-2 rounded-sm bg-white/5 flex items-center justify-center">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            className="text-white/20"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <circle cx="9" cy="9" r="2" />
-            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-          </svg>
-        </div>
-        <span className="text-[10px] text-white/20 font-mono">{label}</span>
-      </div>
-    </div>
-  )
-}
+
 
 export default function ProcessSection() {
   const ref = useRef<HTMLElement>(null)
@@ -211,16 +180,21 @@ export default function ProcessSection() {
             {stages[activeStage].visual === 'storyboard' ? (
               <div className="p-4">
                 <div className="text-xs font-mono text-white/30 mb-3">
-                  STORYBOARD — 7 Sequential Pencil Sketches
+                  VISUAL NARRATIVE — 7 Sequential Sketches
                 </div>
-                <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
                   {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-                    <PlaceholderImage
+                    <div
                       key={n}
-                      src={`/images/storyboard/${n}.png`}
-                      label={`${n}/7`}
-                      className="aspect-[3/4]"
-                    />
+                      className="relative rounded-sm overflow-hidden border border-white/5 hover:border-[#00D4FF]/20 transition-all duration-300 group"
+                    >
+                      <img
+                        src={`/images/storyboard/${n}.webp`}
+                        alt={`Storyboard sketch ${n}`}
+                        className="w-full aspect-[3/4] object-cover"
+                        loading="lazy"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -229,17 +203,27 @@ export default function ProcessSection() {
                 <div className="text-xs font-mono text-white/30 mb-3">
                   PRODUCTION — Blender Viewport
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <PlaceholderImage
-                    src="/images/process/Process-1.gif"
-                    label="Modeling"
-                    className="aspect-video"
-                  />
-                  <PlaceholderImage
-                    src="/images/process/Process-2.gif"
-                    label="Materials"
-                    className="aspect-video"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="relative rounded-sm overflow-hidden border border-white/5">
+                    <video
+                      src="/images/process/Process-1.webm"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full aspect-video object-cover"
+                    />
+                  </div>
+                  <div className="relative rounded-sm overflow-hidden border border-white/5">
+                    <video
+                      src="/images/process/Process-2.webm"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full aspect-video object-cover"
+                    />
+                  </div>
                 </div>
               </div>
             ) : (

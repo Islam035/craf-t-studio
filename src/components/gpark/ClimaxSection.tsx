@@ -1,17 +1,17 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 const scenes = [
-  { time: '0:00-0:03', system: 'Introduction', desc: 'Urban aerial view' },
-  { time: '0:03-0:08', system: 'Tower System', desc: 'Vertical elevator parking' },
-  { time: '0:08-0:15', system: 'Crane System', desc: 'Mechanical arm lifting' },
-  { time: '0:15-0:22', system: 'Puzzle System', desc: 'Sliding platforms' },
-  { time: '0:22-0:30', system: 'Silo System', desc: 'Cylindrical storage' },
-  { time: '0:30-0:40', system: 'Shuttle System', desc: 'Track-based transport' },
-  { time: '0:40-0:50', system: 'Underground', desc: 'Subterranean parking' },
-  { time: '0:50-0:56', system: 'Conclusion', desc: 'Craf-T branding' },
+  { time: '0:00-0:03', system: 'Introduction', desc: 'Urban aerial view', shot: 1 },
+  { time: '0:03-0:08', system: 'Tower System', desc: 'Vertical elevator parking', shot: 2 },
+  { time: '0:08-0:15', system: 'Crane System', desc: 'Mechanical arm lifting', shot: 3 },
+  { time: '0:15-0:22', system: 'Puzzle System', desc: 'Sliding platforms', shot: 4 },
+  { time: '0:22-0:30', system: 'Silo System', desc: 'Cylindrical storage', shot: 5 },
+  { time: '0:30-0:40', system: 'Shuttle System', desc: 'Track-based transport', shot: 6 },
+  { time: '0:40-0:50', system: 'Underground', desc: 'Subterranean parking', shot: 7 },
+  { time: '0:50-0:56', system: 'Conclusion', desc: 'Craf-T branding', shot: null },
 ]
 
 export default function ClimaxSection() {
@@ -67,10 +67,7 @@ export default function ClimaxSection() {
               muted
               playsInline
               className="w-full h-full object-cover"
-              poster=""
-            >
-              <source src="/images/video/G-Park.mp4" type="video/mp4" />
-            </video>
+            />
 
             {/* Play overlay when video not loaded */}
             <div className="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none">
@@ -124,10 +121,29 @@ export default function ClimaxSection() {
                 key={scene.time}
                 className="group relative rounded-sm overflow-hidden border border-white/5 bg-white/[0.01] hover:border-[#00D4FF]/20 transition-all duration-300"
               >
-                {/* Placeholder for shot GIF */}
-                <div className="placeholder-img aspect-video">
-                  <div className="text-center p-2">
-                    <span className="text-[10px] text-white/15 font-mono">
+                {/* Shot clip */}
+                <div className="relative">
+                  {scene.shot ? (
+                    <video
+                      src={`/images/shots/${scene.shot}.mp4`}
+                      muted
+                      playsInline
+                      loop
+                      preload="none"
+                      onMouseOver={(e) => (e.target as HTMLVideoElement).play()}
+                      onMouseOut={(e) => { const v = e.target as HTMLVideoElement; v.pause(); v.currentTime = 0; }}
+                      className="w-full aspect-video object-cover"
+                    />
+                  ) : (
+                    <div className="w-full aspect-video bg-black flex items-center justify-center border border-white/5">
+                      <div className="text-center">
+                        <div className="text-[#00D4FF] font-bold text-sm tracking-wider">CRAF-T</div>
+                        <div className="text-[10px] text-white/30 font-mono mt-1">Studio</div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-1.5">
+                    <span className="text-[10px] text-white/60 font-mono">
                       {scene.time}
                     </span>
                   </div>
