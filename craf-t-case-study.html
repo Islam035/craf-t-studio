@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G-Park Case Study | CRAF-T Studio</title>
+<meta name="description" content="How G-Park turned seven videos into one powerful story. A 56-second 3D animation that consolidated an entire product line into a single marketing asset.">
+<meta property="og:title" content="G-Park Case Study | CRAF-T Studio">
+<meta property="og:description" content="How G-Park turned seven videos into one powerful story.">
+<meta property="og:image" content="https://craf-t-studio.vercel.app/og-image.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://craf-t-studio.vercel.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://craf-t-studio.vercel.app/og-image.png">
+<link rel="icon" type="image/svg+xml" href="https://craf-t-studio.vercel.app/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00D4FF;--yl:#FFD000;--bg:#0A0A0A;--wh:#F5F5F5;
+  --bd:rgba(0,212,255,.1);--bg2:rgba(0,212,255,.04);
+  --gr:#555;--gr2:rgba(255,255,255,.38);
+  --bdr:rgba(255,255,255,.07);
+  --fh:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--wh);font-family:var(--fb);overflow-x:hidden}
+::selection{background:var(--blue);color:#000}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#222;border-radius:3px}
+
+/* ── CANVAS ── */
+#c{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;cursor:grab;touch-action:none}
+#c:active{cursor:grabbing}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:16px 48px;background:rgba(10,10,10,.7);backdrop-filter:blur(16px);border-bottom:.5px solid var(--bdr);transition:background .4s}
+nav.scrolled{background:rgba(10,10,10,.92)}
+.nl{font-family:var(--fh);font-size:22px;letter-spacing:3px;color:#fff;text-decoration:none}
+.nl b{color:var(--blue);font-weight:400}
+.nr{display:flex;gap:26px;align-items:center}
+.na{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gr);text-decoration:none;transition:color .25s}
+.na:hover{color:#fff}
+.nb{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);border:.5px solid rgba(0,212,255,.4);padding:7px 18px;text-decoration:none;transition:background .25s,color .25s}
+.nb:hover{background:var(--blue);color:#000}
+.hb{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.hb span{display:block;width:20px;height:1.5px;background:#fff;margin:5px 0;transition:transform .3s,opacity .3s}
+.hb.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hb.open span:nth-child(2){opacity:0}
+.hb.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ── MOBILE MENU ── */
+#mob{position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.97);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+#mob.open{opacity:1;pointer-events:auto}
+#mob a{display:block;font-family:var(--fh);font-size:clamp(32px,8vw,56px);letter-spacing:4px;color:var(--gr);text-decoration:none;padding:10px 0;transition:color .25s}
+#mob a:hover{color:var(--blue)}
+
+/* ── FLOOR INDICATOR ── */
+#fi{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:600;display:flex;flex-direction:column;align-items:center;gap:3px}
+.fl{font-family:var(--fm);font-size:9px;letter-spacing:1px;color:rgba(255,255,255,.18);padding:5px 7px;min-width:32px;text-align:center;border:.5px solid rgba(255,255,255,.04);cursor:pointer;transition:all .35s}
+.fl.on{color:var(--blue);border-color:rgba(0,212,255,.4);background:var(--bd)}
+.fc{width:1px;height:8px;background:rgba(255,255,255,.06)}
+
+/* ── SECTIONS ── */
+.sec{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 60px 80px;pointer-events:none}
+.sec *{pointer-events:auto}
+.si{max-width:560px}
+.si.r{margin-left:auto}
+.si.c{margin:0 auto;text-align:center}
+#s3{min-height:400vh}
+.pstage{min-height:100vh;display:flex;align-items:center;padding:60px 0}
+
+/* ── TYPOGRAPHY ── */
+.lbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.lbl::before{content:'';width:22px;height:1px;background:var(--blue)}
+h1{font-family:var(--fh);font-size:clamp(44px,7vw,88px);line-height:.95;letter-spacing:.5px;margin-bottom:20px}
+h2.t{font-family:var(--fh);font-size:clamp(32px,5vw,60px);line-height:.95;margin-bottom:16px}
+h2.t em{font-style:normal;color:var(--blue)}
+.bd{font-size:15px;font-weight:300;color:var(--gr2);line-height:1.8;margin-bottom:16px}
+.hq{background:var(--bg2);border-left:2px solid var(--blue);padding:14px 18px;font-size:13px;font-weight:300;font-style:italic;color:rgba(255,255,255,.6);margin-top:10px}
+
+/* ── HERO ── */
+#s0{justify-content:flex-end;padding-bottom:72px}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;border:.5px solid rgba(255,255,255,.12);padding:4px 11px;color:var(--gr)}
+.tag.b{color:var(--blue);border-color:rgba(0,212,255,.35);background:var(--bd)}
+.stats{display:flex;gap:30px;margin-top:24px;flex-wrap:wrap}
+.sv{font-family:var(--fh);font-size:30px;color:#fff;line-height:1}
+.sl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr)}
+.sc-ind{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;font-size:9px;letter-spacing:2px;color:var(--gr);text-transform:uppercase;animation:bob 2.5s ease-in-out infinite}
+.sc-ln{width:1px;height:30px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.2))}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+
+/* ── CHALLENGE ── */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:28px;max-width:620px}
+.cc{background:rgba(255,255,255,.02);border:.5px solid var(--bdr);padding:18px 16px;transition:border-color .3s}
+.cc:hover{border-color:rgba(0,212,255,.35)}
+.cn{font-family:var(--fh);font-size:36px;color:rgba(0,212,255,.12);display:block;margin-bottom:4px}
+.cc h3{font-family:var(--fh);font-size:16px;letter-spacing:.5px;margin-bottom:6px}
+.cc p{font-size:11px;color:rgba(255,255,255,.4);line-height:1.6}
+.cc.wide{grid-column:span 2;border-color:rgba(0,212,255,.15);background:var(--bg2)}
+
+/* ── PROCESS ── */
+.sc2{background:rgba(0,0,0,.55);border:.5px solid var(--bdr);padding:26px;backdrop-filter:blur(8px);max-width:520px;margin-left:auto;margin-right:5vw}
+.sn{font-family:var(--fh);font-size:50px;color:var(--blue);opacity:.16;line-height:1;margin-bottom:2px}
+.snm{font-family:var(--fh);font-size:32px;letter-spacing:1px;margin-bottom:2px}
+.st{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--yl);margin-bottom:12px}
+.sb{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:12px}
+.hbar{height:2px;background:rgba(255,255,255,.06);margin:12px 0 2px;overflow:hidden}
+.hfill{height:100%;background:var(--blue);transition:width 1.2s ease}
+.hl{font-size:9px;color:var(--gr);letter-spacing:1px}
+.tools{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.tl{font-family:var(--fm);font-size:9px;background:var(--bg2);border:.5px solid rgba(0,212,255,.25);color:var(--blue);padding:3px 8px}
+
+/* ── STORYBOARD GRID ── */
+.story-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:14px}
+.story-item{position:relative;overflow:hidden;border:.5px solid var(--bdr);aspect-ratio:3/4;transition:border-color .3s}
+.story-item:hover{border-color:rgba(0,212,255,.3)}
+.story-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(.3);transition:filter .3s}
+.story-item:hover img{filter:grayscale(0)}
+
+/* ── PROCESS VIDEOS ── */
+.proc-vids{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:14px}
+.proc-vid{position:relative;overflow:hidden;border:.5px solid var(--bdr);aspect-ratio:16/9}
+.proc-vid video{width:100%;height:100%;object-fit:cover}
+
+/* ── CLIMAX ── */
+.video-wrap{position:relative;overflow:hidden;border:.5px solid var(--bdr);background:#000;aspect-ratio:16/9;margin-top:22px}
+.video-wrap video{width:100%;height:100%;object-fit:cover}
+.video-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-end}
+.video-bar .vl{font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.5)}
+.video-bar .vr{font-family:var(--fm);font-size:9px;color:var(--blue);display:flex;gap:10px}
+.tl-row{display:flex;border:.5px solid var(--bdr);overflow:hidden;margin:18px 0;font-size:8px;letter-spacing:.5px;text-transform:uppercase}
+.ts{padding:7px 3px;text-align:center;border-right:.5px solid rgba(255,255,255,.05);color:var(--gr2)}
+.ts:last-child{border-right:none}
+.ts span{font-family:var(--fm);font-size:8px;color:var(--blue);display:block;margin-bottom:2px}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:16px}
+.sy{background:rgba(255,255,255,.02);border:.5px solid var(--bdr);overflow:hidden;transition:border-color .3s}
+.sy:hover{border-color:rgba(0,212,255,.3)}
+.sy video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.sy-info{padding:10px 12px}
+.sy-ts{font-family:var(--fm);font-size:8px;color:var(--blue);display:block;margin-bottom:3px}
+.sy-n{font-family:var(--fh);font-size:15px;letter-spacing:.5px;margin-bottom:2px}
+.sy-d{font-size:10px;color:rgba(255,255,255,.3);line-height:1.4}
+.qualities{display:flex;gap:24px;flex-wrap:wrap;margin-top:22px}
+.qt{font-size:11px;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:7px}
+.qt::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(0,212,255,.4)}
+
+/* ── IMPACT ── */
+.tm{background:rgba(0,0,0,.45);border-left:2px solid var(--blue);padding:22px 26px;margin:22px 0;max-width:560px;backdrop-filter:blur(4px)}
+.tm p{font-size:15px;font-weight:300;font-style:italic;line-height:1.7;color:rgba(255,255,255,.75)}
+.tm-by{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-top:10px;display:flex;align-items:center;gap:10px}
+.tm-av{width:32px;height:32px;border-radius:50%;background:var(--bd);border:.5px solid rgba(0,212,255,.2);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:10px;color:var(--blue)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:24px}
+.bac{padding:22px 20px;border:.5px solid var(--bdr)}
+.bac.af{border-color:rgba(0,212,255,.15);background:var(--bg2)}
+.bal{font-size:9px;letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:16px}
+.bac:first-child .bal{color:var(--gr)}
+.bac.af .bal{color:var(--blue)}
+.bi{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:.5px solid rgba(255,255,255,.04);font-size:12px;font-weight:300;color:var(--gr2)}
+.bi:last-child{border-bottom:none}
+.bd2{width:14px;height:14px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7px;margin-top:1px}
+.bd2.x{background:rgba(255,255,255,.06);color:var(--gr)}
+.bd2.ok{background:var(--blue);color:#000}
+.ins{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.in{text-align:center}
+.inv{font-family:var(--fh);font-size:40px;color:var(--blue);display:block;line-height:1;margin-bottom:2px}
+.inl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr)}
+
+/* ── CTA ── */
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.bp{display:inline-flex;align-items:center;gap:7px;padding:11px 28px;background:var(--blue);color:#000;text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:500;transition:all .25s}
+.bp:hover{background:#00bce8;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,212,255,.3)}
+.bs{display:inline-flex;align-items:center;gap:7px;padding:11px 28px;color:#fff;text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;border:.5px solid rgba(255,255,255,.2);transition:border-color .25s}
+.bs:hover{border-color:#fff}
+.soc{display:flex;gap:18px;justify-content:center;margin-top:22px}
+.soc a{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr);text-decoration:none;transition:color .25s}
+.soc a:hover{color:var(--blue)}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:10;padding:28px 48px;border-top:.5px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.flo{font-family:var(--fh);font-size:15px;letter-spacing:3px}
+.flo b{color:var(--blue);font-weight:400}
+.fi2{font-size:10px;color:var(--gr);text-align:center}
+.fls{display:flex;gap:14px}
+.fls a{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gr);text-decoration:none;transition:color .25s}
+.fls a:hover{color:var(--blue)}
+
+/* ── DIVIDERS ── */
+.dv{position:relative;z-index:10;height:.5px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.15),transparent);margin:0 48px}
+
+/* ── FADE IN ── */
+.fi3{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.fi3.in{opacity:1;transform:translateY(0)}
+
+/* ── LOADING ── */
+#loader{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s}
+#loader.done{opacity:0;pointer-events:none}
+.ld-bar{width:120px;height:1px;background:rgba(255,255,255,.1);margin-top:16px;overflow:hidden}
+.ld-fill{width:0%;height:100%;background:var(--blue);transition:width .3s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:14px 20px}
+  .nr{display:none}
+  .hb{display:block}
+  .sec{padding:100px 20px 60px}
+  .dv{margin:0 20px}
+  footer{padding:22px 20px;flex-direction:column;text-align:center}
+  .si.r{margin-left:0}
+  .sc2{margin-left:0;margin-right:0;max-width:100%}
+  .cg,.ba{grid-template-columns:1fr}
+  .cc.wide{grid-column:span 1}
+  .sg{grid-template-columns:repeat(2,1fr)}
+  .story-grid{grid-template-columns:repeat(4,1fr)}
+  .proc-vids{grid-template-columns:1fr}
+  #fi{display:none}
+}
+@media(max-width:500px){
+  .sg{grid-template-columns:1fr 1fr}
+  .story-grid{grid-template-columns:repeat(3,1fr)}
+  .stats{gap:18px}
+  .ins{gap:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loader">
+  <div style="font-family:var(--fh);font-size:24px;letter-spacing:6px;color:#fff">CRAF<b style="color:var(--blue);font-weight:400">-T</b></div>
+  <div class="ld-bar"><div class="ld-fill" id="ldFill"></div></div>
+  <div style="font-family:var(--fm);font-size:9px;color:var(--gr);margin-top:8px;letter-spacing:2px">LOADING 3D MODEL</div>
+</div>
+
+<canvas id="c"></canvas>
+
+<!-- MOBILE MENU -->
+<div id="mob">
+  <a href="#s1" onclick="closeMob()">01 Client</a>
+  <a href="#s2" onclick="closeMob()">02 Challenge</a>
+  <a href="#s3" onclick="closeMob()">03 Process</a>
+  <a href="#s4" onclick="closeMob()">04 Work</a>
+  <a href="#s5" onclick="closeMob()">05 Impact</a>
+  <a href="#s6" onclick="closeMob()">06 Contact</a>
+</div>
+
+<!-- FLOOR INDICATOR -->
+<div id="fi">
+  <div class="fl on" data-s="0" onclick="goTo(0)">B3</div><div class="fc"></div>
+  <div class="fl" data-s="1" onclick="goTo(1)">B2</div><div class="fc"></div>
+  <div class="fl" data-s="2" onclick="goTo(2)">B1</div><div class="fc"></div>
+  <div class="fl" data-s="3" onclick="goTo(3)">G</div><div class="fc"></div>
+  <div class="fl" data-s="4" onclick="goTo(4)">1F</div><div class="fc"></div>
+  <div class="fl" data-s="5" onclick="goTo(5)">2F</div><div class="fc"></div>
+  <div class="fl" data-s="6" onclick="goTo(6)">▲</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#s0" class="nl">CRAF<b>-T</b></a>
+  <div class="nr">
+    <a href="#s2" class="na">Challenge</a>
+    <a href="#s3" class="na">Process</a>
+    <a href="#s4" class="na">Work</a>
+    <a href="#s5" class="na">Impact</a>
+    <a href="mailto:hello@craf-t.studio" class="nb">Contact</a>
+  </div>
+  <button class="hb" id="hbBtn" onclick="toggleMob()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══════════════════ S0: HERO ═══════════════════ -->
+<section id="s0" class="sec" data-i="0">
+  <div class="si">
+    <div class="tags fi3">
+      <span class="tag b">G-Park Thailand</span>
+      <span class="tag">3D Animation</span>
+      <span class="tag">Product Showcase</span>
+      <span class="tag">Smart Parking</span>
+    </div>
+    <h1 class="fi3">How G-Park Turned<br><span style="color:var(--blue)">Seven Videos</span><br>Into One Story.</h1>
+    <p class="bd fi3">A 56-second 4K animation that consolidated an entire product line into a single, unstoppable marketing asset.</p>
+    <div class="stats fi3">
+      <div><span class="sv">56<span style="font-size:14px;color:var(--gr)">s</span></span><span class="sl">Duration</span></div>
+      <div><span class="sv">4K</span><span class="sl">Resolution</span></div>
+      <div><span class="sv">7</span><span class="sl">Systems</span></div>
+      <div><span class="sv">100<span style="font-size:14px;color:var(--gr)">h</span></span><span class="sl">Production</span></div>
+    </div>
+    <p style="font-size:9px;letter-spacing:1.5px;color:rgba(0,212,255,.5);text-transform:uppercase;margin-top:14px" class="fi3">Drag to rotate · Scroll to explore</p>
+  </div>
+  <div class="sc-ind"><span>Scroll</span><div class="sc-ln"></div></div>
+</section>
+
+<div class="dv"></div>
+
+<!-- ═══════════════════ S1: HELLO ═══════════════════ -->
+<section id="s1" class="sec" data-i="1">
+  <div class="si fi3">
+    <div class="lbl">01 — Client</div>
+    <h2 class="t">Meet <em>G-Park</em><br>Thailand</h2>
+    <p class="bd">G-Park develops automated parking systems for space-constrained urban environments. Based in Bangkok, their portfolio spans seven distinct technologies — from Tower systems that stack cars vertically to AGV systems using autonomous guided vehicles for transport.</p>
+    <p class="bd">When they approached Craf-T, they had a fragmented marketing approach. Seven separate videos. Seven separate messages. No unified entry point for potential clients.</p>
+    <div class="hq">They needed one video that could tell the whole story.</div>
+    <div style="margin-top:22px">
+      <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:18px">
+        <div><span style="font-family:var(--fh);font-size:28px;color:var(--blue)">7</span><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-top:2px">Parking Systems</div></div>
+        <div><span style="font-family:var(--fh);font-size:28px;color:var(--blue)">56s</span><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-top:2px">Final Duration</div></div>
+        <div><span style="font-family:var(--fh);font-size:28px;color:var(--blue)">4K</span><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gr);margin-top:2px">Resolution</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:18px">
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">01</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">Tower System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Vertical stacking with elevator mechanisms</div></div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">02</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">Crane System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Multi-level storage with mechanical lifting arms</div></div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">03</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">Puzzle System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Grid-based sliding platforms</div></div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">04</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">Silo System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Cylindrical vertical storage</div></div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">05</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">Shuttle System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Horizontal track-based transport</div></div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">06</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">Underground System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Subterranean multi-level parking</div></div></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border:.5px solid var(--bdr);background:rgba(255,255,255,.01);transition:border-color .3s" onmouseover="this.style.borderColor='rgba(0,212,255,.25)'" onmouseout="this.style.borderColor='var(--bdr)'"><span style="font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.15);min-width:18px">07</span><div><div style="font-size:12px;color:rgba(255,255,255,.7)">AGV System</div><div style="font-size:10px;color:rgba(255,255,255,.25)">Autonomous guided vehicles</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="dv"></div>
+
+<!-- ═══════════════════ S2: GAP ═══════════════════ -->
+<section id="s2" class="sec" data-i="2">
+  <div class="si fi3">
+    <div class="lbl">02 — Challenge</div>
+    <h2 class="t">No Brief. No CAD.<br><em>Just Trust.</em></h2>
+    <p class="bd">The challenge wasn't technical complexity. G-Park knew their systems inside and out. The challenge was communication — and there were five layers to crack.</p>
+    <div class="cg">
+      <div class="cc"><span class="cn">01</span><h3>No Unified Story</h3><p>Seven separate videos, seven messages. No single entry point for potential clients.</p></div>
+      <div class="cc"><span class="cn">02</span><h3>No Creative Brief</h3><p>Client arrived without a vision — just reference materials and trust in Craf-T's process.</p></div>
+      <div class="cc"><span class="cn">03</span><h3>Cross-Cultural Distance</h3><p>Working across time zones and language barriers with a Thai client.</p></div>
+      <div class="cc"><span class="cn">04</span><h3>Seven Systems, 56s</h3><p>100 production hours. Every second had to count. Every frame had to earn its place.</p></div>
+      <div class="cc wide"><span class="cn" style="color:rgba(0,212,255,.25)">05</span><h3 style="color:var(--blue)">No CAD Files</h3><p>No technical drawings. Only photos and videos — requiring pure visual interpretation to reconstruct seven complex mechanical systems from scratch.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="dv"></div>
+
+<!-- ═══════════════════ S3: PROCESS ═══════════════════ -->
+<section id="s3" class="sec" data-i="3">
+
+  <!-- Stage 1: Development -->
+  <div class="pstage">
+    <div class="sc2 fi3">
+      <div class="sn">01</div>
+      <div class="snm">Development</div>
+      <div class="st">~5 hours</div>
+      <div class="sb">Working without a detailed creative brief, Craf-T began with deep comprehension. The team studied reference materials — photos and videos of real parking installations — to understand not just how each system worked, but why it mattered. A reverse storyboard approach captured the hero frame from each scene.</div>
+      <div style="font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.25);margin-bottom:8px;letter-spacing:1px">VISUAL NARRATIVE — 7 Sequential Sketches</div>
+      <div class="story-grid" id="storyGrid"></div>
+      <div class="hbar"><div class="hfill" data-w="5"></div></div>
+      <div class="hl">5 / 100 hours</div>
+      <div class="tools"><span class="tl">Reference Analysis</span><span class="tl">Storyboarding</span><span class="tl">Mood Board</span></div>
+    </div>
+  </div>
+
+  <!-- Stage 2: Pre-Production -->
+  <div class="pstage">
+    <div class="sc2 fi3">
+      <div class="sn">02</div>
+      <div class="snm">Pre-Production</div>
+      <div class="st">~5 hours</div>
+      <div class="sb">Rough animatics established timing for all seven system segments within the 56-second constraint. Camera paths and transitions were blocked out to ensure smooth visual flow between segments. Every system earned its moment without overstaying its welcome.</div>
+      <div class="hbar"><div class="hfill" data-w="5"></div></div>
+      <div class="hl">5 / 100 hours</div>
+      <div class="tools"><span class="tl">Blender</span><span class="tl">Animatics</span><span class="tl">Camera Blocking</span></div>
+    </div>
+  </div>
+
+  <!-- Stage 3: Production -->
+  <div class="pstage">
+    <div class="sc2 fi3">
+      <div class="sn">03</div>
+      <div class="snm">Production</div>
+      <div class="st">~75 hours</div>
+      <div class="sb">All seven parking systems were modeled from scratch in Blender using only photos and videos as reference. No CAD files. No technical drawings. Soft, diffused studio lighting highlighted mechanical details without harsh shadows. Animation was simulation-grade — natural, realistic motion representing real-world operation. Rendered in 4K at 30fps across approximately 1,680 frames.</div>
+      <div style="font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.25);margin-bottom:8px;letter-spacing:1px">PRODUCTION — Blender Viewport</div>
+      <div class="proc-vids" id="procVids"></div>
+      <div class="hbar"><div class="hfill" data-w="75"></div></div>
+      <div class="hl">75 / 100 hours</div>
+      <div class="tools"><span class="tl">Blender</span><span class="tl">Cycles</span><span class="tl">PBR Materials</span><span class="tl">4K Render</span></div>
+    </div>
+  </div>
+
+  <!-- Stage 4: Post-Production -->
+  <div class="pstage">
+    <div class="sc2 fi3">
+      <div class="sn">04</div>
+      <div class="snm">Post-Production</div>
+      <div class="st">~15 hours</div>
+      <div class="sb">DaVinci Resolve handled professional color grading for visual consistency across all seven segments. Adobe Premiere added system identification text overlays and refined timing. Final export optimized for multiple delivery formats including broadcast and large-format displays.</div>
+      <div class="hbar"><div class="hfill" data-w="15"></div></div>
+      <div class="hl">15 / 100 hours</div>
+      <div class="tools"><span class="tl">DaVinci Resolve</span><span class="tl">Adobe Premiere</span><span class="tl">Color Grading</span><span class="tl">H.264</span></div>
+    </div>
+  </div>
+
+</section>
+
+<div class="dv"></div>
+
+<!-- ═══════════════════ S4: CLIMAX ═══════════════════ -->
+<section id="s4" class="sec" data-i="4">
+  <div class="si fi3">
+    <div class="lbl">04 — The Work</div>
+    <h2 class="t">Seven Systems.<br><em>One Story.</em></h2>
+    <p class="bd">The deliverable: a single 4K video, 56 seconds long, showcasing all seven automated parking systems within a unified visual language.</p>
+
+    <!-- Video Player -->
+    <div class="video-wrap">
+      <video id="gpVid" controls muted playsInline preload="metadata"></video>
+      <div class="video-bar">
+        <div>
+          <div class="vl">G-Park Thailand — 3D Product Showcase</div>
+          <div class="vl" style="margin-top:2px;color:rgba(255,255,255,.35)">All Seven Automated Parking Systems</div>
+        </div>
+        <div class="vr"><span>4K</span><span>56s</span><span>30fps</span></div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="tl-row">
+      <div class="ts" style="flex:3"><span>0:00</span>Intro</div>
+      <div class="ts" style="flex:5"><span>0:03</span>Tower</div>
+      <div class="ts" style="flex:7"><span>0:08</span>Crane</div>
+      <div class="ts" style="flex:7"><span>0:15</span>Puzzle</div>
+      <div class="ts" style="flex:8"><span>0:22</span>Silo</div>
+      <div class="ts" style="flex:10"><span>0:30</span>Shuttle</div>
+      <div class="ts" style="flex:10"><span>0:40</span>Underground</div>
+      <div class="ts" style="flex:6"><span>0:50</span>Outro</div>
+    </div>
+
+    <!-- Shot clips -->
+    <div style="font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.25);margin-top:18px;letter-spacing:1px;text-transform:uppercase">Scene Breakdown</div>
+    <div class="sg" id="shotsGrid"></div>
+
+    <div class="qualities">
+      <span class="qt">Consistent Lighting</span>
+      <span class="qt">Smooth Transitions</span>
+      <span class="qt">Technical Accuracy</span>
+      <span class="qt">Visual Clarity</span>
+    </div>
+  </div>
+</section>
+
+<div class="dv"></div>
+
+<!-- ═══════════════════ S5: IMPACT ═══════════════════ -->
+<section id="s5" class="sec" data-i="5">
+  <div class="si fi3">
+    <div class="lbl">05 — Impact</div>
+    <h2 class="t">The Result That<br><em>Speaks For Itself</em></h2>
+
+    <div class="tm">
+      <p>"Completed successfully! Excellent Studio, high-quality work, fast delivery, and communication. Would highly recommend if you have a project and want it done right."</p>
+      <div class="tm-by"><div class="tm-av">GP</div><div><div style="color:rgba(255,255,255,.6)">G-Park Thailand</div><div style="color:rgba(255,255,255,.3);font-size:8px;margin-top:1px">Bangkok, Thailand</div></div></div>
+    </div>
+
+    <div class="ba">
+      <div class="bac">
+        <span class="bal">Before</span>
+        <div class="bi"><div class="bd2 x">×</div><span>7 separate videos</span></div>
+        <div class="bi"><div class="bd2 x">×</div><span>No clear entry point</span></div>
+        <div class="bi"><div class="bd2 x">×</div><span>Fragmented message</span></div>
+        <div class="bi"><div class="bd2 x">×</div><span>Client without vision</span></div>
+      </div>
+      <div class="bac af">
+        <span class="bal">After</span>
+        <div class="bi"><div class="bd2 ok">✓</div><span>1 unified narrative</span></div>
+        <div class="bi"><div class="bd2 ok">✓</div><span>Defined conversation starter</span></div>
+        <div class="bi"><div class="bd2 ok">✓</div><span>Consolidated marketing</span></div>
+        <div class="bi"><div class="bd2 ok">✓</div><span>Collaborative partnership</span></div>
+      </div>
+    </div>
+
+    <div class="ins">
+      <div class="in"><span class="inv">7→1</span><div class="inl">Videos Unified</div></div>
+      <div class="in"><span class="inv">4K</span><div class="inl">Resolution</div></div>
+      <div class="in"><span class="inv">100%</span><div class="inl">From Scratch</div></div>
+      <div class="in"><span class="inv">★★★★★</span><div class="inl">Client Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="dv"></div>
+
+<!-- ═══════════════════ S6: CTA ═══════════════════ -->
+<section id="s6" class="sec" data-i="6">
+  <div class="si c fi3">
+    <div class="lbl" style="justify-content:center;margin-bottom:16px">Let's Create</div>
+    <h2 class="t" style="font-size:clamp(48px,7vw,76px)">Have a Project<br>In Mind?</h2>
+    <p class="bd" style="max-width:380px;margin:0 auto">Let's create something remarkable together.</p>
+    <div class="btns">
+      <a href="mailto:hello@craf-t.studio" class="bp">hello@craf-t.studio</a>
+      <a href="https://www.craf-t.studio" target="_blank" rel="noopener" class="bs">www.craf-t.studio ↗</a>
+    </div>
+    <div class="soc">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Vimeo</a>
+      <a href="#">Behance</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flo">CRAF<b>-T</b></div>
+  <div class="fi2">G-Park Thailand Case Study · 3D Motion Design · Cairo, Egypt</div>
+  <div class="fls">
+    <a href="https://www.craf-t.studio" target="_blank" rel="noopener">Portfolio</a>
+    <a href="mailto:hello@craf-t.studio">hello@craf-t.studio</a>
+  </div>
+</footer>
+
+<!-- ═══════════════════ THREE.JS ═══════════════════ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.183.2/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
+// ── CONFIG ──
+const B = 'https://craf-t-studio.vercel.app';
+const loader = new GLTFLoader();
+const draco = new DRACOLoader();
+draco.setDecoderPath(`${B}/draco/`);
+loader.setDRACOLoader(draco);
+
+// ── RENDERER ──
+const canvas = document.getElementById('c');
+const R = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+R.setPixelRatio(Math.min(devicePixelRatio, 2));
+R.toneMapping = THREE.ACESFilmicToneMapping;
+R.toneMappingExposure = 1.0;
+R.setSize(innerWidth, innerHeight);
+
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(44, innerWidth / innerHeight, 0.1, 100);
+cam.position.set(0, 2.2, 9);
+
+window.addEventListener('resize', () => {
+  R.setSize(innerWidth, innerHeight);
+  cam.aspect = innerWidth / innerHeight;
+  cam.updateProjectionMatrix();
+});
+
+// ── LIGHTS ──
+scene.add(new THREE.HemisphereLight(0x112244, 0x000000, 0.6));
+const key = new THREE.DirectionalLight(0xffffff, 2.5);
+key.position.set(5, 8, 6);
+scene.add(key);
+const blue = new THREE.PointLight(0x00D4FF, 4, 18);
+blue.position.set(-5, 4, 2);
+scene.add(blue);
+const yellow = new THREE.PointLight(0xFFD000, 1.5, 14);
+yellow.position.set(3, 1, 5);
+scene.add(yellow);
+const fill = new THREE.DirectionalLight(0x7799ff, 0.4);
+fill.position.set(-4, 2, -4);
+scene.add(fill);
+const rim = new THREE.DirectionalLight(0x004488, 0.7);
+rim.position.set(0, -2, -8);
+scene.add(rim);
+
+// ── ENVIRONMENT ──
+const grid = new THREE.GridHelper(50, 50, 0x003355, 0x001122);
+grid.material.opacity = 0.12;
+grid.material.transparent = true;
+scene.add(grid);
+
+// Parking lines
+const pMat = new THREE.MeshBasicMaterial({ color: 0x00D4FF, transparent: true, opacity: 0.08 });
+for (let i = -4; i <= 4; i++) {
+  [-5, 5].forEach(z => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 0.06), pMat);
+    m.rotation.x = -Math.PI / 2;
+    m.position.set(i * 3, 0.001, z);
+    scene.add(m);
+  });
+}
+
+// Particles
+const pGeo = new THREE.BufferGeometry();
+const pPos = [];
+for (let i = 0; i < 80; i++) {
+  pPos.push((Math.random() - .5) * 22, (Math.random() - .5) * 10, (Math.random() - .5) * 12 - 3);
+}
+pGeo.setAttribute('position', new THREE.Float32BufferAttribute(pPos, 3));
+const parts = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x00D4FF, size: 0.02, transparent: true, opacity: 0.25 }));
+scene.add(parts);
+
+// ── CAR GROUP ──
+const CAR = new THREE.Group();
+scene.add(CAR);
+let carLoaded = false;
+const meshRefs = [];
+
+// ── LOAD GLB ──
+loader.load(
+  `${B}/models/CarConcept.glb`,
+  (gltf) => {
+    const model = gltf.scene;
+    // Center and scale
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const scale = 2.5 / Math.max(size.x, size.y, size.z);
+    model.position.sub(center);
+    model.scale.setScalar(scale);
+    model.position.y -= 0.3;
+
+    // Setup materials
+    model.traverse((child) => {
+      if (child.isMesh) {
+        meshRefs.push(child);
+        const mat = child.material;
+        if (mat && mat.isMeshStandardMaterial) {
+          mat.envMapIntensity = 1.0;
+          if (mat.emissive) {
+            mat.emissive = new THREE.Color(0x00D4FF);
+            mat.emissiveIntensity = 0;
+          }
+        }
+      }
+    });
+
+    CAR.add(model);
+    CAR.remove(fallbackGroup);
+    carLoaded = true;
+    document.getElementById('loader').classList.add('done');
+  },
+  (xhr) => {
+    if (xhr.total > 0) {
+      const pct = Math.round((xhr.loaded / xhr.total) * 100);
+      document.getElementById('ldFill').style.width = pct + '%';
+    }
+  },
+  (err) => {
+    console.warn('GLB failed, using fallback car:', err);
+    carLoaded = false;
+    document.getElementById('loader').classList.add('done');
+  }
+);
+
+// ── FALLBACK PROCEDURAL CAR ──
+const fallbackGroup = new THREE.Group();
+const bMat = new THREE.MeshStandardMaterial({ color: 0xf0f0f0, metalness: 0.7, roughness: 0.18 });
+const gMat = new THREE.MeshStandardMaterial({ color: 0x4477aa, metalness: 0.1, roughness: 0.05, transparent: true, opacity: 0.55 });
+const wMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.1, roughness: 0.9 });
+const rMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.05 });
+const hlMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xFFD000, emissiveIntensity: 1.0 });
+const tlMat = new THREE.MeshStandardMaterial({ color: 0xff2200, emissive: 0xff1100, emissiveIntensity: 0.6 });
+
+function bx(w, h, d, mat, x, y, z, rx=0, ry=0, rz=0) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z);
+  m.rotation.set(rx, ry, rz);
+  CAR.add(m);
+  return m;
+}
+function bp(geo, mat, x, y, z, rx=0, ry=0, rz=0) {
+  const m = new THREE.Mesh(geo, mat);
+  m.position.set(x, y, z);
+  m.rotation.set(rx, ry, rz);
+  CAR.add(m);
+  return m;
+}
+
+// Body
+bx(3.6, 0.5, 1.7, bMat, 0, 0.52, 0);
+bx(1.9, 0.5, 1.5, bMat, -0.14, 1.02, 0);
+bx(0.9, 0.1, 1.66, bMat, 1.5, 0.84, 0, 0, 0, 0.13);
+bx(0.7, 0.1, 1.66, bMat, -1.44, 0.84, 0, 0, 0, -0.11);
+bx(0.18, 0.26, 1.7, bMat, 1.88, 0.4, 0);
+bx(0.18, 0.26, 1.7, bMat, -1.88, 0.4, 0);
+bx(3.2, 0.08, 0.08, bMat, 0, 0.28, 0.9);
+bx(3.2, 0.08, 0.08, bMat, 0, 0.28, -0.9);
+bx(1.5, 0.03, 1.52, bMat, -0.14, 1.29, 0);
+
+// Glass
+bx(0.06, 0.42, 1.36, gMat, 0.8, 1.04, 0, 0, 0, -0.64);
+bx(0.06, 0.36, 1.36, gMat, -1.04, 1.05, 0, 0, 0, 0.64);
+bx(1.7, 0.26, 0.04, gMat, -0.14, 1.1, 0.76);
+bx(1.7, 0.26, 0.04, gMat, -0.14, 1.1, -0.76);
+
+// Lights
+bx(0.06, 0.11, 0.36, hlMat, 1.9, 0.58, 0.54);
+bx(0.06, 0.11, 0.36, hlMat, 1.9, 0.58, -0.54);
+bx(0.06, 0.11, 0.38, tlMat, -1.9, 0.58, 0.54);
+bx(0.06, 0.11, 0.38, tlMat, -1.9, 0.58, -0.54);
+bx(0.06, 0.18, 1.06, new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.4, roughness: 0.6 }), 1.88, 0.35, 0);
+
+// Wheels
+const WP = [[1.22,0.38,0.92],[1.22,0.38,-0.92],[-1.22,0.38,0.92],[-1.22,0.38,-0.92]];
+const wheels = [];
+WP.forEach(([x,y,z]) => {
+  const wm = bp(new THREE.CylinderGeometry(0.36,0.36,0.24,20), wMat, x,y,z, Math.PI/2,0,0);
+  wheels.push(wm);
+  bp(new THREE.CylinderGeometry(0.2,0.2,0.26,6), rMat, x,y,z, Math.PI/2,0,0);
+});
+
+CAR.rotation.y = 0.6;
+
+// ── SECTION STATES ──
+const STATES = [
+  { cx:0, cy:2.2, cz:9, carX:0, carY:0, tiltX:0, sc:1, float:.08,
+    metal:.7, rough:.18, bc:[.96,.96,.97], wop:0, ry:null },
+  { cx:-2.2, cy:1.8, cz:8.8, carX:2.6, carY:0, tiltX:0, sc:.65, float:0,
+    metal:.6, rough:.25, bc:[.96,.96,.97], wop:0, ry:-.22 },
+  { cx:.6, cy:2.6, cz:9.2, carX:0, carY:.5, tiltX:.2, sc:.8, float:.14,
+    metal:.1, rough:.9, bc:[.93,.93,.96], wop:.6, ry:.1 },
+  { cx:1.8, cy:1.8, cz:8.8, carX:-2.4, carY:0, tiltX:0, sc:.7, float:.05,
+    metal:0, rough:1, bc:[.98,.98,.99], wop:.5, ry:.28 },
+  { cx:0, cy:1.5, cz:7.2, carX:0, carY:0, tiltX:0, sc:1, float:.04,
+    metal:.7, rough:.18, bc:[.96,.96,.98], wop:0, ry:0 },
+  { cx:-2.2, cy:1.8, cz:8.2, carX:2.5, carY:0, tiltX:0, sc:.7, float:0,
+    metal:.75, rough:.15, bc:[.97,.97,1], wop:0, ry:-.14 },
+  { cx:0, cy:1.1, cz:5.8, carX:0, carY:0, tiltX:-.04, sc:1.05, float:.06,
+    metal:.85, rough:.12, bc:[1,1,1], wop:0, ry:0 },
+];
+
+const PSTAGES = [
+  { metal:0, rough:1, bc:[.97,.97,.98], wop:.55, ry:.32 },
+  { metal:.15, rough:.8, bc:[.9,.9,.92], wop:.18, ry:.22 },
+  { metal:.6, rough:.35, bc:[.86,.86,.89], wop:0, ry:.1 },
+  { metal:.85, rough:.12, bc:[.96,.96,.98], wop:0, ry:0 },
+];
+
+// ── INTERPOLATION ──
+const CUR = { cx:0, cy:2.2, cz:9, carX:0, carY:0, tiltX:0, sc:1, float:.08, metal:.7, rough:.18, bc:[.96,.96,.97], wop:0 };
+const lerp = (a,b,t) => a+(b-a)*t;
+const lerpA = (a,b,t) => a.map((v,i) => lerp(v,b[i],t));
+const clamp = (v,lo,hi) => Math.max(lo,Math.min(hi,v));
+const ease = t => t<.5 ? 2*t*t : -1+(4-2*t)*t;
+
+// ── SCROLL ──
+const secs = document.querySelectorAll('.sec');
+let curSec = 0, autoRot = .6;
+
+function getSec() {
+  const sy = scrollY, mid = sy + innerHeight * .5;
+  let s = 0;
+  for (let i = 0; i < secs.length; i++) {
+    const top = secs[i].offsetTop, bot = top + secs[i].offsetHeight;
+    if (mid >= top && mid < bot) { s = i; break; }
+    if (mid >= bot) s = Math.min(i+1, secs.length-1);
+  }
+  return clamp(s, 0, secs.length-1);
+}
+
+function updateFloor(s) {
+  document.querySelectorAll('.fl').forEach(el => el.classList.toggle('on', +el.dataset.s === s));
+}
+
+window.goTo = i => secs[i]?.scrollIntoView({ behavior:'smooth' });
+
+// ── DRAG ──
+let dragging = false, lastX = 0, userRot = 0, autoSpd = .004;
+canvas.addEventListener('mousedown', e => { if (curSec===0) { dragging=true; lastX=e.clientX; }});
+canvas.addEventListener('touchstart', e => { if (curSec===0) { dragging=true; lastX=e.touches[0].clientX; }}, {passive:true});
+window.addEventListener('mouseup', () => dragging=false);
+window.addEventListener('touchend', () => dragging=false);
+window.addEventListener('mousemove', e => { if (!dragging) return; userRot += (e.clientX-lastX)*.006; lastX=e.clientX; });
+window.addEventListener('touchmove', e => { if (!dragging) return; userRot += (e.touches[0].clientX-lastX)*.006; lastX=e.touches[0].clientX; }, {passive:true});
+
+// ── FADE-IN OBSERVER ──
+const fio = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); fio.unobserve(e.target); } });
+}, { threshold: .1, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.fi3').forEach(el => fio.observe(el));
+
+// Hours bar
+const hbo = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const f = e.target.querySelector('.hfill');
+    if (!f) return;
+    const w = f.dataset.w; f.style.width='0%';
+    setTimeout(() => f.style.width = w+'%', 350);
+    hbo.unobserve(e.target);
+  });
+}, { threshold: .4 });
+document.querySelectorAll('.pstage').forEach(el => hbo.observe(el));
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  const s = getSec();
+  if (s !== curSec) updateFloor(s);
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 50);
+}, { passive: true });
+
+// ── MOBILE MENU ──
+window.toggleMob = () => {
+  document.getElementById('mob').classList.toggle('open');
+  document.getElementById('hbBtn').classList.toggle('open');
+};
+window.closeMob = () => {
+  document.getElementById('mob').classList.remove('open');
+  document.getElementById('hbBtn').classList.remove('open');
+};
+
+// ── POPULATE ASSETS ──
+// Storyboard
+const storyGrid = document.getElementById('storyGrid');
+for (let i = 1; i <= 7; i++) {
+  const d = document.createElement('div');
+  d.className = 'story-item';
+  d.innerHTML = `<img src="${B}/images/storyboard/${i}.webp" alt="Storyboard sketch ${i}" loading="lazy">`;
+  storyGrid.appendChild(d);
+}
+
+// Process videos
+const procVids = document.getElementById('procVids');
+['Process-1.webm','Process-2.webm'].forEach(src => {
+  const d = document.createElement('div');
+  d.className = 'proc-vid';
+  d.innerHTML = `<video src="${B}/images/process/${src}" autoplay loop muted playsInline></video>`;
+  procVids.appendChild(d);
+});
+
+// Main video
+document.getElementById('gpVid').src = `${B}/images/video/G-Park.mp4`;
+
+// Shots
+const shotsData = [
+  { t:'0:00–0:03', n:'Introduction', d:'Urban aerial view', s:1 },
+  { t:'0:03–0:08', n:'Tower', d:'Vertical elevator parking', s:2 },
+  { t:'0:08–0:15', n:'Crane', d:'Mechanical arm lifting', s:3 },
+  { t:'0:15–0:22', n:'Puzzle', d:'Sliding platforms', s:4 },
+  { t:'0:22–0:30', n:'Silo', d:'Cylindrical storage', s:5 },
+  { t:'0:30–0:40', n:'Shuttle', d:'Track-based transport', s:6 },
+  { t:'0:40–0:50', n:'Underground', d:'Subterranean parking', s:7 },
+];
+const shotsGrid = document.getElementById('shotsGrid');
+shotsData.forEach(shot => {
+  const d = document.createElement('div');
+  d.className = 'sy';
+  d.innerHTML = `
+    <video src="${B}/images/shots/${shot.s}.mp4" muted playsInline loop preload="none"
+      onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0"></video>
+    <div class="sy-info">
+      <span class="sy-ts">${shot.t}</span>
+      <div class="sy-n">${shot.n}</div>
+      <div class="sy-d">${shot.d}</div>
+    </div>`;
+  shotsGrid.appendChild(d);
+});
+
+// ── ANIMATION LOOP ──
+let T = 0;
+const SPD = .055;
+
+function animate() {
+  requestAnimationFrame(animate);
+  T += .01;
+
+  const s = getSec();
+  if (s !== curSec) { updateFloor(s); curSec = s; }
+
+  let tgt = { ...STATES[Math.min(s, STATES.length-1)] };
+
+  // Process sub-stages
+  if (s === 3) {
+    const el = secs[3];
+    const rel = clamp((scrollY - el.offsetTop) / (el.offsetHeight - innerHeight), 0, 1);
+    const si = clamp(Math.floor(rel * 4), 0, 3);
+    const sp = ease(clamp(rel * 4 - si, 0, 1));
+    const pa = PSTAGES[si], pb = PSTAGES[Math.min(si+1, 3)];
+    tgt.metal = lerp(pa.metal, pb.metal, sp);
+    tgt.rough = lerp(pa.rough, pb.rough, sp);
+    tgt.bc = lerpA(pa.bc, pb.bc, sp);
+    tgt.wop = lerp(pa.wop, pb.wop, sp);
+    tgt.ry = lerp(pa.ry, pb.ry, sp);
+    if (si === 1) tgt.carX += Math.sin(T*.8)*.2;
+    if (si === 2) tgt.carY += Math.sin(T*1.2)*.1;
+  }
+
+  // Lerp
+  const L = SPD;
+  CUR.cx = lerp(CUR.cx, tgt.cx, L*1.3);
+  CUR.cy = lerp(CUR.cy, tgt.cy, L*1.3);
+  CUR.cz = lerp(CUR.cz, tgt.cz, L*1.3);
+  CUR.carX = lerp(CUR.carX, tgt.carX, L);
+  CUR.carY = lerp(CUR.carY, tgt.carY, L*.8);
+  CUR.tiltX = lerp(CUR.tiltX, tgt.tiltX, L*.6);
+  CUR.sc = lerp(CUR.sc, tgt.sc, L);
+  CUR.float = lerp(CUR.float, tgt.float, L*.5);
+  CUR.metal = lerp(CUR.metal, tgt.metal, L*.45);
+  CUR.rough = lerp(CUR.rough, tgt.rough, L*.45);
+  CUR.bc = lerpA(CUR.bc, tgt.bc, L*.4);
+  CUR.wop = lerp(CUR.wop, tgt.wop, L*.4);
+
+  // Camera
+  cam.position.x = lerp(cam.position.x, CUR.cx, L*1.5);
+  cam.position.y = lerp(cam.position.y, CUR.cy, L*1.5);
+  cam.position.z = lerp(cam.position.z, CUR.cz, L*1.5);
+
+  // Car rotation
+  if (s === 0) {
+    if (dragging) autoSpd = Math.max(autoSpd*.98, .0005);
+    else autoSpd = Math.min(autoSpd+.00015, .004);
+    autoRot += autoSpd;
+    CAR.rotation.y = autoRot + userRot;
+  } else {
+    const ty = tgt.ry ?? 0;
+    CAR.rotation.y = lerp(CAR.rotation.y, ty, L*.6);
+  }
+
+  // CTA wheels
+  if (s === 6) wheels.forEach(w => w.rotation.z -= .06);
+
+  // Gap tilt
+  if (s === 2) CAR.rotation.z = Math.sin(T*.7)*.04;
+  else CAR.rotation.z = lerp(CAR.rotation.z, 0, L);
+
+  CAR.position.x = CUR.carX;
+  CAR.position.y = CUR.carY + Math.sin(T*1.4)*CUR.float;
+  CAR.rotation.x = CUR.tiltX;
+  CAR.scale.setScalar(CUR.sc);
+
+  cam.lookAt(CUR.carX*.3, .65, 0);
+
+  // Update materials (GLB model)
+  if (carLoaded) {
+    meshRefs.forEach(mesh => {
+      const mat = mesh.material;
+      if (!mat || !mat.isMeshStandardMaterial) return;
+      mat.metalness = lerp(mat.metalness, CUR.metal, .05);
+      mat.roughness = lerp(mat.roughness, CUR.rough, .05);
+      mat.opacity = lerp(mat.opacity, 1-CUR.wop*.5, .05);
+      mat.transparent = CUR.wop > .01;
+      mat.wireframe = CUR.wop > .5;
+      if (mat.color) mat.color.lerp(new THREE.Color(CUR.bc[0], CUR.bc[1], CUR.bc[2]), .05);
+      if (mat.emissive) mat.emissiveIntensity = lerp(mat.emissiveIntensity, s===2?.15:0, .05);
+    });
+  } else {
+    // Fallback car materials
+    bMat.metalness = CUR.metal;
+    bMat.roughness = CUR.rough;
+    bMat.color.setRGB(CUR.bc[0], CUR.bc[1], CUR.bc[2]);
+  }
+
+  // Grid
+  grid.material.opacity = s===0 ? lerp(grid.material.opacity,.15,.05) : lerp(grid.material.opacity,.07,.03);
+
+  // Particles
+  parts.rotation.y += .0008;
+  parts.material.opacity = .15 + Math.sin(T*.9)*.05;
+
+  // Blue light pulse
+  blue.intensity = 3.5 + Math.sin(T*1.6)*1;
+
+  R.render(scene, cam);
+}
+
+animate();
+</script>
+</body>
+</html>
